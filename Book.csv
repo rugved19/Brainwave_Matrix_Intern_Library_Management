@@ -1,0 +1,13 @@
+Book_ID,Book_Name,Author,Publish_Year,Avail_Copies
+1,"A House for Mr. Biswas","V.S. Naipaul",1961,3
+2,"Where the Wild Things Are"," Sendak",1963,5
+3,"The Wealth of Nations","Adam Smith",1776,4
+4,"A Death in Shonagachhi","Rijula Das",2021,8
+5,"A House for Mr. Biswas","V.S. Naipaul",1961,3
+6,"Where the Wild Things Are"," Sendak",1963,5
+7,"The Wealth of Nations","Adam Smith",1776,4
+8,"A Death in Shonagachhi","Rijula Das",2021,8
+9,"A House for Mr. Biswas","V.S. Naipaul",1961,3
+10,"Where the Wild Things Are",Sendak,1963,5
+11,"The Wealth of Nations","Adam Smith",1776,4
+12,"A Death in Shonagachhi","Rijula Das",2021,8

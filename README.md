@@ -1,78 +1,36 @@
--- Create the database
-CREATE DATABASE library_mgmt;
-USE library_mgmt;
+This SQL script creates and manages a Library Management System database named library_mgmt. It includes multiple tables to handle readers, books, librarians, borrowings, fines, and reader statuses. Below is a breakdown of each section:
 
--- READER TABLE
-CREATE TABLE Reader (
-    Reader_ID INT PRIMARY KEY AUTO_INCREMENT,
-    Name VARCHAR(100) NOT NULL,
-    Email VARCHAR(100) UNIQUE NOT NULL,
-    Phone VARCHAR(10) UNIQUE NOT NULL,
-    JoinDate DATE NOT NULL
-);
-
--- BOOK TABLE
-CREATE TABLE Book (
-    Book_ID INT PRIMARY KEY AUTO_INCREMENT,
-    Book_Name VARCHAR(200) NOT NULL,
-    Author VARCHAR(200) NOT NULL,
-    Publish_Year INT,
-    Avail_Copies INT DEFAULT 1
-);
-
--- LIBRARIAN TABLE
-CREATE TABLE Librarian (
-    Librarian_ID INT PRIMARY KEY AUTO_INCREMENT,
-    Name VARCHAR(100) NOT NULL,
-    Email VARCHAR(100) UNIQUE NOT NULL,
-    Phone VARCHAR(10) UNIQUE NOT NULL,
-    HireDate DATE NOT NULL
-);
-
--- BORROWING/LOAN TABLE
-CREATE TABLE Borrowing_Loan (
-    Loan_ID INT PRIMARY KEY AUTO_INCREMENT,
-    Reader_ID INT NOT NULL,
-    Book_ID INT NOT NULL,
-    Librarian_ID INT NOT NULL,
-    Borrow_Date DATE NOT NULL,
-    Return_Date DATE,
-    Status ENUM('Borrowed', 'Returned') DEFAULT 'Borrowed',
-    FOREIGN KEY (Reader_ID) REFERENCES Reader(Reader_ID),
-    FOREIGN KEY (Book_ID) REFERENCES Book(Book_ID),
-    FOREIGN KEY (Librarian_ID) REFERENCES Librarian(Librarian_ID)
-);
-
-CREATE TABLE Fine (
-    Fine_ID INT PRIMARY KEY AUTO_INCREMENT,
-    Loan_ID INT NOT NULL,
-    Fine_Amount DECIMAL(5,2) NOT NULL,
-    Paid ENUM('Yes', 'No') DEFAULT 'No',
-    FOREIGN KEY (Loan_ID) REFERENCES Borrowing_Loan(Loan_ID)
-);
-CREATE TABLE Status_Reader (
-    Account_ID INT PRIMARY KEY AUTO_INCREMENT,
-    Reader_ID INT NOT NULL,
-    Account_Type ENUM('Premium', 'Regular') NOT NULL,
-    Account_Status ENUM('Active', 'InActive') NOT NULL,
-    FOREIGN KEY (Reader_ID) REFERENCES Reader(Reader_ID)
-);
-
--- Queries for Active and InActive Readers
-SELECT * FROM Status_Reader WHERE Account_Status = 'Active';
-SELECT * FROM Status_Reader WHERE Account_Status = 'InActive';
-
--- Query for Premium Account Count
-SELECT COUNT(Account_ID) AS Premium_Count FROM Status_Reader WHERE Account_Type = 'Premium';
-
--- Query to Track Books Taken and Returned
-SELECT * FROM Borrowing_Loan WHERE Status = 'Borrowed';
-SELECT * FROM Borrowing_Loan WHERE Status = 'Returned';
-
--- Query to Update Return Date and Status
-UPDATE Borrowing_Loan
-SET Return_Date = CURDATE(), Status = 'Returned'
-WHERE Loan_ID = 1;
-
--- Query to View Fines
-SELECT * FROM Fine;
+1. Creating the Database
+A new database library_mgmt is created and used.
+2. Reader Table
+Stores information about library readers.
+Columns: Reader_ID, Name, Email, Phone, JoinDate.
+Inserts sample readers.
+3. Book Table
+Stores details of books available in the library.
+Columns: Book_ID, Book_Name, Author, Publish_Year, Avail_Copies.
+Inserts sample book records.
+4. Librarian Table
+Stores librarian details who manage the library.
+Columns: Librarian_ID, Name, Email, Phone, HireDate.
+Inserts sample librarian data.
+5. Borrowing/Loan Table
+Tracks books borrowed by readers.
+Columns: Loan_ID, Reader_ID, Book_ID, Librarian_ID, Borrow_Date, Return_Date, Status.
+Establishes foreign key relationships to Reader, Book, and Librarian tables.
+Inserts sample borrowing records.
+6. Fine Table
+Stores fines for overdue book returns.
+Columns: Fine_ID, Loan_ID, Fine_Amount, Paid.
+References Loan_ID from Borrowing_Loan.
+Inserts sample fine records.
+7. Status Reader Table (Optional)
+Tracks reader account type and status.
+Columns: Account_ID, Reader_ID, Account_Type, Account_Status.
+Inserts sample reader account statuses.
+8. Queries for Analysis
+Retrieve active and inactive readers.
+Count premium accounts.
+Track borrowed and returned books.
+Update return date and status for borrowed books.
+View fines applied to readers.
